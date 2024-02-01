@@ -4,6 +4,7 @@ const Course = require('../modules/course');
 
 router.get('/', async (req, res) => {
     const courses = await Course.find();
+    console.log(courses);
     res.render('courses', {
         title: "Courses",
         isCourses: true,
