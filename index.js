@@ -5,6 +5,7 @@ const coursesRoutes = require('./routes/courses');
 const cardRoutes = require('./routes/card');
 const addRoutes = require('./routes/add');
 const path = require('path');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -25,4 +26,18 @@ app.use('/courses', coursesRoutes);
 app.use('/add', addRoutes);
 app.use('/card', cardRoutes);
 
-app.listen(3000);
+const PORT = 3000 || process.env.PORT;
+
+async function start(){
+    try {
+        const password = 'oQmOnUfZLCyjreKa';
+        const url = `mongodb+srv://dimabolandau0:${password}@cluster0.80zcank.mongodb.net/shop`;
+        await mongoose.connect(url, {useNewUrlParser: true});
+
+        app.listen(PORT);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+start();
