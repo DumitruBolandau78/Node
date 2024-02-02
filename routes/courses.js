@@ -1,16 +1,15 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const router = Router();
 const Course = require('../modules/course');
 
 router.get('/', async (req, res) => {
-    const courses = await Course.find();
-    console.log(courses);
+    const courses = await Course.find()
     res.render('courses', {
-        title: "Courses",
+        title: 'Courses',
         isCourses: true,
         courses
-    });
-});
+    })
+})
 
 router.get('/:id', async (req, res) => {
     const course = await Course.findById(req.params.id);
@@ -23,7 +22,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/edit', async (req, res) => {
-    const {id} = req.body;
+    const { id } = req.body;
 
     delete req.body.id;
 
@@ -31,8 +30,20 @@ router.post('/edit', async (req, res) => {
     res.redirect('/courses');
 });
 
+router.post('/remove', async (req, res) => {
+    try {
+        await Course.deleteOne({
+            _id: req.body.id
+        });
+        
+        res.redirect('/courses');
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.get('/:id/edit', async (req, res) => {
-    if(!req.query.allow){
+    if (!req.query.allow) {
         return res.redirect('/');
     }
 

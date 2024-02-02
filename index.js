@@ -11,7 +11,11 @@ const app = express();
 
 const hbs = hbsrs.create({
     defaultLayout: 'main',
-    extname: 'hbs'
+    extname: 'hbs',
+    runtimeOptions: {
+        allowProtoPropertiesByDefault: true,
+        allowProtoMethodsByDefault: true
+    }
 });
 
 app.engine('hbs', hbs.engine);
@@ -32,7 +36,7 @@ async function start(){
     try {
         const password = 'oQmOnUfZLCyjreKa';
         const url = `mongodb+srv://dimabolandau0:${password}@cluster0.80zcank.mongodb.net/shop`;
-        await mongoose.connect(url, {useNewUrlParser: true});
+        await mongoose.connect(url)
 
         app.listen(PORT);
     } catch (error) {
